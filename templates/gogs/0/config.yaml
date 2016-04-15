@@ -1,0 +1,7 @@
+name: gogs-prime
+description: Customized version of Gogs rancher install
+version: 1.0
+category: Git
+maintainer: Ben Thomas
+license: MIT
+projectURL: https://www.github.com/wazoo/rancher-prime
