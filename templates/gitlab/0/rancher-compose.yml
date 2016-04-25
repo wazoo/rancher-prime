@@ -1,0 +1,56 @@
+.catalog:
+  name: Gitlab Community Edition
+  version: 8.7.0-ce.0-prime
+  description: |
+    Gitlab CE is a free GitHub alternative
+  minimum_rancher_version: v0.56.0
+  maintainer: "Ben Thomas <hellobenthomas@gmail.com>"
+  uuid: gitlab-prime-0
+  questions:
+    - variable: "gitlab_domain"
+      description: "Gitlab Domain Name"
+      label: "Domain Name:"
+      required: true
+      default: "code.example.com"
+      type: "string"
+    - variable: "gitlab_pages_domain"
+      description: "Gitlab Pages Domain Name"
+      label: "Domain Name:"
+      required: true
+      default: "code.example.com"
+      type: "string"
+    - variable: "gitlab_ip_address"
+      description: "Gitlab Load Balancer IP Address"
+      label: "IP Address:"
+      required: true
+      default: ""
+      type: "string"
+    - variable: "postgres_password"
+      description: "Password for Postgres DB Instance"
+      label: "Password:"
+      required: true
+      default: ""
+      type: "string"
+
+
+gitlab-server:
+  scale: 2
+  retain_ip: true
+  health_check:
+    port: 80
+    interval: 30000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+    healthy_threshold: 2
+
+gitlab-lb:
+  scale: 1
+  load_balancer_config: {}
+  default_cert: gitlab
+  health_check:
+    port: 42
+    interval: 2000
+    unhealthy_threshold: 3
+    healthy_threshold: 2
+    response_timeout: 2000

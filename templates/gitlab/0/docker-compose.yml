@@ -1,0 +1,78 @@
+gitlab-server:
+  ports:
+  - 2224:22/tcp
+  - 8080:80/tcp
+  labels:
+    prime.type: app
+    prime.software: gitlab-ce
+    prime.application: gitlab
+    io.rancher.sidekicks:
+      - gitlab-lb
+      - gitlab-postgres
+      - gitlab-redis
+    io.rancher.loadbalancer.ssl.ports: '443'
+  hostname: ${gitlab_hostname}
+  environment:
+    GITLAB_OMNIBUS_CONFIG: |
+      postgresql['enable'] = false
+      redis['enable'] = false
+      mattermost['enable'] = false
+      external_url 'http://${gitlab_domain}:8080'
+      pages_external_url "http://${gitlab_pages_domain}/"
+      nginx['http2_enabled'] = true
+      gitlab_rails['gitlab_shell_ssh_port'] = 2224
+      gitlab_rails['gitlab_ssh_host'] = '${gitlab_hostname}'
+      gitlab_rails['db_adapter'] = "postgresql"
+      gitlab_rails['db_database'] = "gitlabhq_production"
+      gitlab_rails['db_username'] = "gitlab"
+      gitlab_rails['db_password'] = ${postgres_password}
+      gitlab_rails['db_host'] = gitlab-postgres
+      gitlab_rails['db_port'] = 5432
+      gitlab_rails['redis_host'] = gitlab-redis
+      gitlab_rails['redis_database'] = gitlab
+      gitlab_pages['enable'] = true
+      gitlab_pages['external_https'] = true
+      gitlab_pages['redirect_http'] = true
+      gitlab_pages['external_http'] = true
+      gitlab_pages['use_http2'] = true
+
+  image: gitlab/gitlab-ce:8.7.0-ce.0
+  volumes:
+    - gitlab-etc:/etc/gitlab
+    - gitlab-log:/var/log/gitlab
+    - gitlab-opt:/var/opt/gitlab
+  links:
+    - gitlab-postgres:postgres
+    - gitlab-redis:redis
+gitlab-postgres:
+  image: postgres
+  labels:
+    prime.type: db
+    prime.software: postgres
+    prime.application: gitlab
+  environment:
+    PGDATA: /data/pgdata
+    POSTGRES_DB: gitlab
+    POSTGRES_USER: gitlab
+    POSTGRES_PASSWORD: ${postgres_password}
+  volumes:
+    - gitlab-db:/data
+gitlab-redis:
+  image: redis
+  labels:
+    prime.type: db
+    prime.software: redis
+    prime.application: gitlab
+gitlab-lb:
+  ports:
+    - 192.168.55.50:22:2224/tcp
+    - ${gitlab_ip_address}:80:80
+    - ${gitlab_ip_address}:443:443
+  links:
+    - gitlab:gitlab-server
+  labels:
+    prime.type: load-balancer
+    prime.application: gitlab
+  tty: true
+  image: rancher/load-balancer-service
+  stdin_open: true
