@@ -6,12 +6,9 @@ gitlab-server:
     prime.type: app
     prime.software: gitlab-ce
     prime.application: gitlab
-    io.rancher.sidekicks:
-      - gitlab-lb
-      - gitlab-postgres
-      - gitlab-redis
+    io.rancher.sidekicks: gitlab-lb, gitlab-postgres, gitlab-redis
     io.rancher.loadbalancer.ssl.ports: '443'
-  hostname: ${gitlab_hostname}
+  hostname: ${gitlab_domain}
   environment:
     GITLAB_OMNIBUS_CONFIG: |
       postgresql['enable'] = false
@@ -21,7 +18,7 @@ gitlab-server:
       pages_external_url "http://${gitlab_pages_domain}/"
       nginx['http2_enabled'] = true
       gitlab_rails['gitlab_shell_ssh_port'] = 2224
-      gitlab_rails['gitlab_ssh_host'] = '${gitlab_hostname}'
+      gitlab_rails['gitlab_ssh_host'] = '${gitlab_domain}'
       gitlab_rails['db_adapter'] = "postgresql"
       gitlab_rails['db_database'] = "gitlabhq_production"
       gitlab_rails['db_username'] = "gitlab"
