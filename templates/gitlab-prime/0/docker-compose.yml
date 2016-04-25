@@ -6,7 +6,7 @@ gitlab-server:
     prime.type: app
     prime.software: gitlab-ce
     prime.application: gitlab
-    io.rancher.sidekicks: gitlab-lb, gitlab-postgres, gitlab-redis
+    io.rancher.sidekicks: gitlab-lb, gitlab-postgres, gitlab-redis, gitlab-letsencrypt
     io.rancher.loadbalancer.ssl.ports: '443'
   hostname: ${gitlab_domain}
   environment:
@@ -73,3 +73,22 @@ gitlab-lb:
   tty: true
   image: rancher/load-balancer-service
   stdin_open: true
+gitlab-letsencrypt:
+  image: janeczku/rancher-letsencrypt:v0.2.7
+  environment:
+    EULA: Yes
+    API_VERSION: Production
+    CERT_NAME: gitlab-letsencrypt
+    EMAIL: ${email_address}
+    DOMAINS: "${gitlab_domain},${gitlab_pages_domain}"
+    PUBLIC_KEY_TYPE: RSA-2048
+    RENEWAL_TIME: 12
+    PROVIDER: Route53
+    AWS_ACCESS_KEY: ${aws_access_key}
+    AWS_SECRET_KEY: ${aws_secret_key}
+  labels:
+    prime.type: cert
+    prime.software: letsencrypt
+    prime.application: gitlab
+    io.rancher.container.create_agent: 'true'
+    io.rancher.container.agent.role: 'environment'

@@ -55,6 +55,22 @@
       required: true
       default: "gitlab-db"
       type: "string"
+    - variable: "email_address"
+      description: "Email Address for Lets Encrypt"
+      label: "Email:"
+      required: true
+      default: "gitlab-db"
+      type: "string"
+    - variable: "AWS_ACCESS_KEY"
+      label: "AWS Access Key Id"
+      description: "Enter the Access Key Id for your AWS account."
+      type: "string"
+      required: true
+    - variable: "AWS_SECRET_KEY"
+      label: "AWS Secret Access Key"
+      description: "Enter the Secret Access Key for your AWS account."
+      type: "string"
+      required: true
 
 gitlab-server:
   scale: 2
@@ -70,7 +86,7 @@ gitlab-server:
 gitlab-lb:
   scale: 1
   load_balancer_config: {}
-  default_cert: gitlab
+  default_cert: gitlab-letsencrypt
   health_check:
     port: 42
     interval: 2000
