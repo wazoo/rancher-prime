@@ -61,15 +61,14 @@ gitlab-redis:
     prime.application: gitlab
 gitlab-lb:
   ports:
-    - ${gitlab_ip_address}:22:2224/tcp
-    - ${gitlab_ip_address}:80:80
-    - ${gitlab_ip_address}:443:443
+    - 22:2224/tcp
+    - 80:8080
+    - 443:8080
   links:
     - gitlab:gitlab-server
   labels:
     prime.type: load-balancer
     prime.application: gitlab
-    io.rancher.sidekicks: gitlab-letsencrypt
   tty: true
   image: rancher/load-balancer-service
   stdin_open: true

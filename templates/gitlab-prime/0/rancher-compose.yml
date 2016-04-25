@@ -77,6 +77,8 @@ gitlab-lb:
   scale: 1
   load_balancer_config: {}
   default_cert: gitlab-certificate
+  external_ips:
+    - ${gitlab_ip_address}
   health_check:
     port: 42
     interval: 2000
