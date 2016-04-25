@@ -47,7 +47,7 @@ gitlab-postgres:
     prime.software: postgres
     prime.application: gitlab
   environment:
-    PGDATA: /data/pgdata
+    PGDATA: /data
     POSTGRES_DB: gitlab
     POSTGRES_USER: gitlab
     POSTGRES_PASSWORD: ${postgres_password}
