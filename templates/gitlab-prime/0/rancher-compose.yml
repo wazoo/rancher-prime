@@ -9,15 +9,15 @@
   questions:
     - variable: "gitlab_domain"
       description: "Gitlab Domain Name"
-      label: "Domain Name:"
+      label: "Gitlab Domain Name:"
       required: true
       default: "code.example.com"
       type: "string"
     - variable: "gitlab_pages_domain"
       description: "Gitlab Pages Domain Name"
-      label: "Domain Name:"
+      label: "Gitlab Pages Domain Name:"
       required: true
-      default: "code.example.com"
+      default: "pages.example.com"
       type: "string"
     - variable: "gitlab_ip_address"
       description: "Gitlab Load Balancer IP Address"
@@ -33,25 +33,25 @@
       type: "password"
     - variable: "gitlab_etc_volume"
       description: "Gitlab Etc Volume Name (from Storage Pool)"
-      label: "Gitlab Etc:"
+      label: "Gitlab Etc Volume:"
       required: true
       default: "gitlab-etc"
       type: "string"
     - variable: "gitlab_log_volume"
       description: "Gitlab Log Volume Name (from Storage Pool)"
-      label: "Gitlab Log:"
+      label: "Gitlab Log Volume:"
       required: true
       default: "gitlab-log"
       type: "string"
     - variable: "gitlab_opt_volume"
       description: "Gitlab Opt Volume Name (from Storage Pool)"
-      label: "Gitlab Opt:"
+      label: "Gitlab Opt Volume:"
       required: true
       default: "gitlab-opt"
       type: "string"
     - variable: "gitlab_db_volume"
       description: "Gitlab DB Volume Name (from Storage Pool)"
-      label: "Gitlab DB:"
+      label: "Gitlab DB Volume:"
       required: true
       default: "gitlab-db"
       type: "string"
