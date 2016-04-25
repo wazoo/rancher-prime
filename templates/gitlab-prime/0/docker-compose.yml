@@ -6,7 +6,6 @@ gitlab-server:
     prime.type: app
     prime.software: gitlab-ce
     prime.application: gitlab
-    io.rancher.sidekicks: gitlab-lb, gitlab-postgres, gitlab-redis, gitlab-letsencrypt
     io.rancher.loadbalancer.ssl.ports: '443'
   hostname: ${gitlab_domain}
   environment:
@@ -70,6 +69,7 @@ gitlab-lb:
   labels:
     prime.type: load-balancer
     prime.application: gitlab
+    io.rancher.sidekicks: gitlab-letsencrypt
   tty: true
   image: rancher/load-balancer-service
   stdin_open: true
