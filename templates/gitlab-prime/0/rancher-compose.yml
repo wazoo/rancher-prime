@@ -30,14 +30,37 @@
       label: "Password:"
       required: true
       default: ""
+      type: "password"
+    - variable: "gitlab_etc_volume"
+      description: "Gitlab Etc Volume Name (from Storage Pool)"
+      label: "Gitlab Etc:"
+      required: true
+      default: "gitlab-etc"
       type: "string"
-
+    - variable: "gitlab_log_volume"
+      description: "Gitlab Log Volume Name (from Storage Pool)"
+      label: "Gitlab Log:"
+      required: true
+      default: "gitlab-log"
+      type: "string"
+    - variable: "gitlab_opt_volume"
+      description: "Gitlab Opt Volume Name (from Storage Pool)"
+      label: "Gitlab Opt:"
+      required: true
+      default: "gitlab-opt"
+      type: "string"
+    - variable: "gitlab_db_volume"
+      description: "Gitlab DB Volume Name (from Storage Pool)"
+      label: "Gitlab DB:"
+      required: true
+      default: "gitlab-db"
+      type: "string"
 
 gitlab-server:
   scale: 2
   retain_ip: true
   health_check:
-    port: 80
+    port: 8080
     interval: 30000
     unhealthy_threshold: 3
     strategy: recreate

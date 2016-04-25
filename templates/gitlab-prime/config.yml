@@ -1,5 +1,5 @@
-name: Gitlab CE Stack
+name: Gitlab CE HA Stack
 description: |
   Creates a redundant Gitlab CE Stack using Convoy backed volumes.
-version: 8.7.0-ce.0-prime
+version: 8.7.0ce-prime
 category: Source Control

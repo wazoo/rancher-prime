@@ -38,9 +38,9 @@ gitlab-server:
 
   image: gitlab/gitlab-ce:8.7.0-ce.0
   volumes:
-    - gitlab-etc:/etc/gitlab
-    - gitlab-log:/var/log/gitlab
-    - gitlab-opt:/var/opt/gitlab
+    - ${gitlab_etc_volume}:/etc/gitlab
+    - ${gitlab_log_volume}:/var/log/gitlab
+    - ${gitlab_opt_volume}:/var/opt/gitlab
   links:
     - gitlab-postgres:postgres
     - gitlab-redis:redis
@@ -56,7 +56,7 @@ gitlab-postgres:
     POSTGRES_USER: gitlab
     POSTGRES_PASSWORD: ${postgres_password}
   volumes:
-    - gitlab-db:/data
+    - ${gitlab_db_volume}:/data
 gitlab-redis:
   image: redis
   labels:
@@ -65,7 +65,7 @@ gitlab-redis:
     prime.application: gitlab
 gitlab-lb:
   ports:
-    - 192.168.55.50:22:2224/tcp
+    - ${gitlab_ip_address}:22:2224/tcp
     - ${gitlab_ip_address}:80:80
     - ${gitlab_ip_address}:443:443
   links:
