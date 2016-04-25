@@ -1,5 +1,5 @@
-name: Gitlab Community
+name: Gitlab CE Stack
 description: |
-  Gitlab CE is a free GitHub alternative
-version: 8.5.1-0-rancher-prime
+  Creates a redundant Gitlab CE Stack using Convoy backed volumes.
+version: 8.7.0-ce.0-prime
 category: Source Control
